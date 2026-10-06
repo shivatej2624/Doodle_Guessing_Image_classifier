@@ -15,6 +15,7 @@ import inspect
 import io
 import json
 import re
+import os
 import time
 from datetime import datetime
 from pathlib import Path
@@ -560,4 +561,8 @@ with gr.Blocks(**supported(gr.Blocks.__init__, title="Doodle Guessing Game", css
 
 
 if __name__ == "__main__":
-    demo.launch(**supported(gr.Blocks.launch, css=CSS, theme=THEME, js=FORCE_LIGHT_JS))
+    port = int(os.environ.get("PORT", 7860))
+    demo.launch(
+        server_name="0.0.0.0",
+        server_port=port
+    )
