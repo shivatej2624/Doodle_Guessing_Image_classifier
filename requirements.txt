@@ -1,4 +1,4 @@
-gradio
+gradio==6.29.1
 torch
 pillow
 numpy
