@@ -497,6 +497,7 @@ FORCE_LIGHT_JS = """
 # ------------------------------------------------------------------ interface
 with gr.Blocks(**supported(gr.Blocks.__init__, title="Doodle Guessing Game", css=CSS, theme=THEME, js=FORCE_LIGHT_JS)) as demo:
     state = gr.State(new_state())
+    gr.HTML(f"<style>{CSS} #css-holder {{display:none !important;}}</style>", elem_id="css-holder")
 
     gr.HTML(
         '<div id="header"><div class="logo">🎨</div><div><div class="title">Doodle Guessing Game</div>'
@@ -558,12 +559,20 @@ with gr.Blocks(**supported(gr.Blocks.__init__, title="Doodle Guessing Game", css
     clear_btn.click(on_clear, [state], result_outputs + [sketch], **quiet)
     msg.submit(on_chat, [msg, state], [chat, msg, state], **quiet)
     send_btn.click(on_chat, [msg, state], [chat, msg, state], **quiet)
+    demo.load(None, None, None, js=FORCE_LIGHT_JS)
 
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 7860))
+    server_name = os.environ.get("HOST", "127.0.0.1")
+
     demo.launch(
-        server_name="0.0.0.0",
+        server_name=server_name,
         server_port=port,
-        **supported(gr.Blocks.launch, css=CSS, theme=THEME, js=FORCE_LIGHT_JS)
+        **supported(
+            gr.Blocks.launch,
+            css=CSS,
+            theme=THEME,
+            js=FORCE_LIGHT_JS
+        )
     )
